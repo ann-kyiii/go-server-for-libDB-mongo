@@ -1,0 +1,6 @@
+.vscode
+*.log
+*.out
+__debug_bin
+
+.env

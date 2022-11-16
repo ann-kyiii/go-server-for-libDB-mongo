@@ -1,0 +1,59 @@
+GET  http://localhost:1313 HTTP/1.1
+
+###
+
+// API /api/v1/bookId/:bookId GET
+GET  http://localhost:1313/api/v1/bookId/1 HTTP/1.1
+
+###
+
+// API /api/v1/search POST
+// windowsのcurlだと以下のjsonでエラー吐いたので，vscodeならREST Clientなど活用してください
+POST http://localhost:1313/api/v1/search HTTP/1.1
+content-type: application/json
+
+{
+    "keywords": [
+        "深層学習"
+    ], 
+    "offset": "0", 
+    "limit" : "5" 
+}
+
+###
+POST http://localhost:1313/api/v1/searchGenre HTTP/1.1
+content-type: application/json
+
+{
+    "genre": "研究(理論)",
+    "offset": "0", 
+    "limit" : "5" 
+}
+
+###
+POST http://localhost:1313/api/v1/searchSubGenre HTTP/1.1
+content-type: application/json
+
+{
+    "subGenre": "統計・機械学習",
+    "offset": "0", 
+    "limit" : "5" 
+}
+
+###
+POST http://localhost:1313/api/v1/borrow HTTP/1.1
+content-type: application/json
+
+{
+    "id": "0", 
+    "name": "TEST"
+}
+
+###
+POST http://localhost:1313/api/v1/return HTTP/1.1
+content-type: application/json
+
+{
+    "id": "0", 
+    "name": "TEST"
+}
