@@ -5,7 +5,7 @@ type BookMongoDB struct {
 	BookName   string      `json:"bookName", bson:"bookName"`
 	Genre      string      `json:"genre", bson:"genre"`
 	SubGenre   string      `json:"subGenre", bson:"subGenre"`
-	ISBN       string      `json:"iSBN", bson:"ISBN"`
+	ISBN       string      `json:"ISBN", bson:"ISBN"`
 	Find       int64       `json:"find", bson:"find"`
 	Sum        int64       `json:"sum", bson:"sum"`
 	Author     string      `json:"author", bson:"author"`
