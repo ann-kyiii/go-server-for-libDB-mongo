@@ -1,20 +1,20 @@
 package main
 
 type BookMongoDB struct {
-	Id         int64       `bson:"id"`
-	BookName   string      `bson:"bookName"`
-	Genre      string      `bson:"genre"`
-	SubGenre   string      `bson:"subGenre"`
-	ISBN       string      `bson:"ISBN"`
-	Find       int64       `bson:"find"`
-	Sum        int64       `bson:"sum"`
-	Author     string      `bson:"author"`
-	Publisher  string      `bson:"publisher"`
-	Pubdate    string      `bson:"pubdate"`
-	Exist      string      `bson:"exist"`
-	LocateAt4F bool        `bson:"locateAt4F"`
-	WithDisc   string      `bson:"withDisc"`
-	Other      string      `bson:"other"`
-	Borrower   interface{} `bson:"borrower"`
-	ImgURL     string      `bson:"imgURL"`
+	Id         int64       `json:"id", bson:"id"`
+	BookName   string      `json:"bookName", bson:"bookName"`
+	Genre      string      `json:"genre", bson:"genre"`
+	SubGenre   string      `json:"subGenre", bson:"subGenre"`
+	ISBN       string      `json:"iSBN", bson:"ISBN"`
+	Find       int64       `json:"find", bson:"find"`
+	Sum        int64       `json:"sum", bson:"sum"`
+	Author     string      `json:"author", bson:"author"`
+	Publisher  string      `json:"publisher", bson:"publisher"`
+	Pubdate    string      `json:"pubdate", bson:"pubdate"`
+	Exist      string      `json:"exist", bson:"exist"`
+	LocateAt4F bool        `json:"locateAt4F", bson:"locateAt4F"`
+	WithDisc   string      `json:"withDisc", bson:"withDisc"`
+	Other      string      `json:"other", bson:"other"`
+	Borrower   interface{} `json:"borrower", bson:"borrower"`
+	ImgURL     string      `json:"imgURL", bson:"imgURL"`
 }
