@@ -47,3 +47,10 @@ mongoimport --db=<YOUR DB NAME> --collection=<YOUR COLLECTION NAME>  --type csv 
 ```
 go run add_borrower/add_borrower.go
 ```
+
+# Docker環境のセットアップ
+本リポジトリには`.devcontainer`と`docker`の2つの設定があり，前者が開発用で後者が運用用です．
+
+`.devcontainer`はVSCodeのDev Containerで使うための設定であり，本リポジトリをマウントします．
+
+`docker`はサーバを起動するように設定しているため，`docker compose up`でサーバが起動します．

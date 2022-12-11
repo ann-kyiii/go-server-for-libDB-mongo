@@ -1,0 +1,13 @@
+{
+    "name": "Go+MongoDB",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "golang",
+    "workspaceFolder": "/go/src/app",
+    "appPort": [
+        1313
+    ],
+    "extensions": [
+        "golang.go",
+        "humao.rest-client"
+    ]
+}
