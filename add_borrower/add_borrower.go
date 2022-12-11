@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -11,7 +10,7 @@ import (
 )
 
 func main() {
-	uri := "mongodb://" + os.Getenv("DB_HOST") + ":" + os.Getenv("DB_PORT")
+	uri := "mongodb://localhost:27017"
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
 
 	if err != nil {
@@ -28,9 +27,7 @@ func main() {
 
 // すべての本にBorrowerの空配列を追加する
 func insertBorrower(client *mongo.Client) {
-	DATABASE_NAME := os.Getenv("DATABASE_NAME")
-	COLLECTION_NAME := os.Getenv("COLLECTION_NAME")
-	col := client.Database(DATABASE_NAME).Collection(COLLECTION_NAME)
+	col := client.Database("library-app").Collection("books")
 
 	var books []map[string]interface{}
 	cursor, err := col.Find(context.TODO(), bson.D{})

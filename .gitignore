@@ -4,3 +4,6 @@
 __debug_bin
 
 .env
+main_server
+**/db/*
+*.csv

@@ -1,0 +1,26 @@
+version: '3'
+services:
+  mongodb:
+    build:
+      context: ../
+      dockerfile: ./docker/mongodb/Dockerfile
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - 27017:27017
+    volumes:
+      - ./db:/data/db
+      - ../initdb:/docker-entrypoint-initdb.d
+  golang:
+    build:
+      context: ../
+      dockerfile: ./docker/golang/Dockerfile
+    stdin_open: true
+    tty: true
+    ports:
+      - 1313:1313
+    working_dir: /go/src/app
+    command: ["/main_server"]
+    depends_on:
+      - mongodb
