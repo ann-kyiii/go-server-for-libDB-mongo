@@ -133,6 +133,7 @@ func searchBooks(c echo.Context) error {
 		cursor.Decode(&result)
 
 		var book BookValue
+		delete(result, "_id")
 		book.Book = result
 		bookvalues1 = append(bookvalues1, book)
 		if result["id"].(int64) == 429 {
@@ -156,6 +157,7 @@ func searchBooks(c echo.Context) error {
 	for _, result := range results2 {
 		var book BookValue
 		cursor.Decode(&result)
+		delete(result, "_id")
 		book.Book = result
 		bookvalues2 = append(bookvalues2, book)
 	}
@@ -214,6 +216,7 @@ func searchGenre(c echo.Context) error {
 
 	for _, book := range books {
 		cursor.Decode(&book)
+		delete(book, "_id")
 		books = append(books, book)
 	}
 
@@ -229,6 +232,7 @@ func searchGenre(c echo.Context) error {
 
 	for _, book := range books {
 		cursor.Decode(&book)
+		delete(book, "_id")
 		books = append(books, book)
 	}
 
@@ -301,6 +305,7 @@ func searchSubGenre(c echo.Context) error {
 
 	for _, book := range books {
 		cursor.Decode(&book)
+		delete(book, "_id")
 		books = append(books, book)
 	}
 
@@ -316,6 +321,7 @@ func searchSubGenre(c echo.Context) error {
 
 	for _, book := range books {
 		cursor.Decode(&book)
+		delete(book, "_id")
 		books = append(books, book)
 	}
 
