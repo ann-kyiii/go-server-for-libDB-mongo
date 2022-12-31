@@ -4,6 +4,7 @@
 __debug_bin
 
 .env
+!docker/.env
 main_server
 **/db/*
 *.csv
