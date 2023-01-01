@@ -1,8 +1,8 @@
 package main
 
 import (
+	"regexp"
 	"sort"
-	"strings"
 )
 
 type BookValue struct {
@@ -27,6 +27,8 @@ func (u BookValues) Swap(i, j int) {
 func searchOR(bookvalues BookValues, keywords []interface{}, searchAttribute []string, offset int, limit int) map[string]interface{} {
 	for i, book := range bookvalues {
 		for _, word := range keywords {
+			// 大文字小文字を区別しない検索
+			r := regexp.MustCompile(`(?i)` + word.(string))
 			for v, att := range searchAttribute {
 				if book.Book[att] == nil {
 					continue
@@ -34,7 +36,7 @@ func searchOR(bookvalues BookValues, keywords []interface{}, searchAttribute []s
 				if book.Book[att] == "Genre" || book.Book[att] == "SubGenre" {
 					continue
 				}
-				if strings.Index(book.Book[att].(string), word.(string)) != -1 {
+				if r.MatchString(book.Book[att].(string)) {
 					bookvalues[i].value += (v + 1)
 					break
 				}
