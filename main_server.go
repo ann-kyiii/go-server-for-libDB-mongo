@@ -94,6 +94,7 @@ func searchBooks(c echo.Context) error {
 	keywords := m["keywords"].([]interface{})
 	t_offset := m["offset"].(string)
 	t_limit := m["limit"].(string)
+	isAndSearch := m["isAndSearch"].(bool)
 	offset, err := strconv.Atoi(t_offset)
 	if err != nil {
 		log.Printf("【Error】", err)
@@ -166,7 +167,12 @@ func searchBooks(c echo.Context) error {
 
 	// search
 	searchAttribute := []string{"publisher", "author", "bookName", "pubdate", "ISBN"}
-	data := searchOR(bookvalues, keywords, searchAttribute, offset, limit)
+	var data map[string]interface{}
+	if isAndSearch {
+		data = searchAnd(bookvalues, keywords, searchAttribute, offset, limit)
+	} else {
+		data = searchOr(bookvalues, keywords, searchAttribute, offset, limit)
+	}
 	return c.JSON(http.StatusOK, data)
 }
 
@@ -375,7 +381,8 @@ func borrowBook(c echo.Context) error {
 	COLLECTION_NAME := os.Getenv("COLLECTION_NAME")
 	col := client.Database(DATABASE_NAME).Collection(COLLECTION_NAME)
 
-	_, err = col.UpdateOne(context.Background(), bson.M{"id": id}, bson.M{"$push": bson.M{"borrower": name}})
+	// 既に登録されている名前では登録しない
+	_, err = col.UpdateOne(context.Background(), bson.M{"id": id}, bson.M{"$addToSet": bson.M{"borrower": name}})
 	if err != nil {
 		panic(err)
 	}

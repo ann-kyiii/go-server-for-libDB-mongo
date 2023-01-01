@@ -14,10 +14,12 @@ content-type: application/json
 
 {
     "keywords": [
-        "深層学習"
+        "深層学習",
+        "進化計算"
     ], 
     "offset": "0", 
-    "limit" : "5" 
+    "limit" : "5",
+    "isAndSearch": false
 }
 
 ###
