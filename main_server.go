@@ -375,7 +375,8 @@ func borrowBook(c echo.Context) error {
 	COLLECTION_NAME := os.Getenv("COLLECTION_NAME")
 	col := client.Database(DATABASE_NAME).Collection(COLLECTION_NAME)
 
-	_, err = col.UpdateOne(context.Background(), bson.M{"id": id}, bson.M{"$push": bson.M{"borrower": name}})
+	// 既に登録されている名前では登録しない
+	_, err = col.UpdateOne(context.Background(), bson.M{"id": id}, bson.M{"$addToSet": bson.M{"borrower": name}})
 	if err != nil {
 		panic(err)
 	}
