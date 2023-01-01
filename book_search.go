@@ -24,7 +24,7 @@ func (u BookValues) Swap(i, j int) {
 	u[i], u[j] = u[j], u[i]
 }
 
-func searchOR(bookvalues BookValues, keywords []interface{}, searchAttribute []string, offset int, limit int) map[string]interface{} {
+func searchOr(bookvalues BookValues, keywords []interface{}, searchAttribute []string, offset int, limit int) map[string]interface{} {
 	for i, book := range bookvalues {
 		for _, word := range keywords {
 			// 大文字小文字を区別しない検索
@@ -44,6 +44,39 @@ func searchOR(bookvalues BookValues, keywords []interface{}, searchAttribute []s
 		}
 	}
 
+	return createResult(bookvalues, offset, limit)
+}
+
+func searchAnd(bookvalues BookValues, keywords []interface{}, searchAttribute []string, offset int, limit int) map[string]interface{} {
+	for i, book := range bookvalues {
+		for _, word := range keywords {
+			// 大文字小文字を区別しない検索
+			r := regexp.MustCompile(`(?i)` + regexp.QuoteMeta(word.(string)))
+			isMatch := false
+			for v, att := range searchAttribute {
+				if book.Book[att] == nil {
+					continue
+				}
+				if book.Book[att] == "Genre" || book.Book[att] == "SubGenre" {
+					continue
+				}
+				if r.MatchString(book.Book[att].(string)) {
+					bookvalues[i].value += (v + 1)
+					isMatch = true
+					break
+				}
+			}
+			if !isMatch {
+				bookvalues[i].value = 0
+				break
+			}
+		}
+	}
+
+	return createResult(bookvalues, offset, limit)
+}
+
+func createResult(bookvalues BookValues, offset int, limit int) map[string]interface{} {
 	sort.Sort(bookvalues)
 	var books []map[string]interface{}
 	for _, book := range bookvalues {

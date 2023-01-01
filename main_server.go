@@ -94,6 +94,7 @@ func searchBooks(c echo.Context) error {
 	keywords := m["keywords"].([]interface{})
 	t_offset := m["offset"].(string)
 	t_limit := m["limit"].(string)
+	isAndSearch := m["isAndSearch"].(bool)
 	offset, err := strconv.Atoi(t_offset)
 	if err != nil {
 		log.Printf("【Error】", err)
@@ -166,7 +167,12 @@ func searchBooks(c echo.Context) error {
 
 	// search
 	searchAttribute := []string{"publisher", "author", "bookName", "pubdate", "ISBN"}
-	data := searchOR(bookvalues, keywords, searchAttribute, offset, limit)
+	var data map[string]interface{}
+	if isAndSearch {
+		data = searchAnd(bookvalues, keywords, searchAttribute, offset, limit)
+	} else {
+		data = searchOr(bookvalues, keywords, searchAttribute, offset, limit)
+	}
 	return c.JSON(http.StatusOK, data)
 }
 
