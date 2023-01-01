@@ -28,7 +28,7 @@ func searchOR(bookvalues BookValues, keywords []interface{}, searchAttribute []s
 	for i, book := range bookvalues {
 		for _, word := range keywords {
 			// 大文字小文字を区別しない検索
-			r := regexp.MustCompile(`(?i)` + word.(string))
+			r := regexp.MustCompile(`(?i)` + regexp.QuoteMeta(word.(string)))
 			for v, att := range searchAttribute {
 				if book.Book[att] == nil {
 					continue
