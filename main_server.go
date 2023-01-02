@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -137,9 +136,6 @@ func searchBooks(c echo.Context) error {
 		delete(result, "_id")
 		book.Book = result
 		bookvalues1 = append(bookvalues1, book)
-		if result["id"].(int64) == 429 {
-			fmt.Println("!!!")
-		}
 	}
 
 	var bookvalues2 BookValues
