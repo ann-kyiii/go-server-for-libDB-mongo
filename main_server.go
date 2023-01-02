@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -97,12 +96,12 @@ func searchBooks(c echo.Context) error {
 	isAndSearch := m["isAndSearch"].(bool)
 	offset, err := strconv.Atoi(t_offset)
 	if err != nil {
-		log.Printf("【Error】", err)
+		log.Println("【Error】", err)
 		panic(err)
 	}
 	limit, err2 := strconv.Atoi(t_limit)
 	if err2 != nil {
-		log.Printf("【Error】", err)
+		log.Println("【Error】", err)
 		panic(err)
 	}
 
@@ -118,7 +117,7 @@ func searchBooks(c echo.Context) error {
 	col := client.Database(DATABASE_NAME).Collection(COLLECTION_NAME)
 
 	var bookvalues1 BookValues
-	filter := bson.D{{"exist", "〇"}}
+	filter := bson.D{{Key: "exist", Value: "〇"}}
 	cursor, err := col.Find(context.TODO(), filter)
 	if err != nil {
 		panic(err)
@@ -137,13 +136,10 @@ func searchBooks(c echo.Context) error {
 		delete(result, "_id")
 		book.Book = result
 		bookvalues1 = append(bookvalues1, book)
-		if result["id"].(int64) == 429 {
-			fmt.Println("!!!")
-		}
 	}
 
 	var bookvalues2 BookValues
-	filter = bson.D{{"exist", "一部発見"}}
+	filter = bson.D{{Key: "exist", Value: "一部発見"}}
 	cursor, err = col.Find(context.TODO(), filter)
 	if err != nil {
 		panic(err)
@@ -189,12 +185,12 @@ func searchGenre(c echo.Context) error {
 	t_limit := m["limit"].(string)
 	offset, err := strconv.Atoi(t_offset)
 	if err != nil {
-		log.Printf("【Error】", err)
+		log.Println("【Error】", err)
 		panic(err)
 	}
 	limit, err2 := strconv.Atoi(t_limit)
 	if err2 != nil {
-		log.Printf("【Error】", err)
+		log.Println("【Error】", err)
 		panic(err)
 	}
 
@@ -210,7 +206,7 @@ func searchGenre(c echo.Context) error {
 	col := client.Database(DATABASE_NAME).Collection(COLLECTION_NAME)
 
 	var books []map[string]interface{}
-	filter := bson.D{{"exist", "〇"}, {"genre", genre}}
+	filter := bson.D{{Key: "exist", Value: "〇"}, {Key: "genre", Value: genre}}
 	cursor, err := col.Find(context.TODO(), filter)
 	if err != nil {
 		panic(err)
@@ -226,7 +222,7 @@ func searchGenre(c echo.Context) error {
 		books = append(books, book)
 	}
 
-	filter = bson.D{{"exist", "一部発見"}, {"genre", genre}}
+	filter = bson.D{{Key: "exist", Value: "一部発見"}, {Key: "genre", Value: genre}}
 	cursor, err = col.Find(context.TODO(), filter)
 	if err != nil {
 		panic(err)
@@ -278,12 +274,12 @@ func searchSubGenre(c echo.Context) error {
 	t_limit := m["limit"].(string)
 	offset, err := strconv.Atoi(t_offset)
 	if err != nil {
-		log.Printf("【Error】", err)
+		log.Println("【Error】", err)
 		panic(err)
 	}
 	limit, err2 := strconv.Atoi(t_limit)
 	if err2 != nil {
-		log.Printf("【Error】", err)
+		log.Println("【Error】", err)
 		panic(err)
 	}
 
@@ -299,7 +295,7 @@ func searchSubGenre(c echo.Context) error {
 	col := client.Database(DATABASE_NAME).Collection(COLLECTION_NAME)
 
 	var books []map[string]interface{}
-	filter := bson.D{{"exist", "〇"}, {"subGenre", subGenre}}
+	filter := bson.D{{Key: "exist", Value: "〇"}, {Key: "subGenre", Value: subGenre}}
 	cursor, err := col.Find(context.TODO(), filter)
 	if err != nil {
 		panic(err)
@@ -315,7 +311,7 @@ func searchSubGenre(c echo.Context) error {
 		books = append(books, book)
 	}
 
-	filter = bson.D{{"exist", "一部発見"}, {"subGenre", subGenre}}
+	filter = bson.D{{Key: "exist", Value: "一部発見"}, {Key: "subGenre", Value: subGenre}}
 	cursor, err = col.Find(context.TODO(), filter)
 	if err != nil {
 		panic(err)
@@ -366,7 +362,7 @@ func borrowBook(c echo.Context) error {
 	name := m["name"].(string)
 	id, err := strconv.Atoi(t_id)
 	if err != nil {
-		log.Printf("【Error】", err)
+		log.Println("【Error】", err)
 		panic(err)
 	}
 
@@ -405,7 +401,7 @@ func returnBook(c echo.Context) error {
 	name := m["name"].(string)
 	id, err := strconv.Atoi(t_id)
 	if err != nil {
-		log.Printf("【Error】", err)
+		log.Println("【Error】", err)
 		panic(err)
 	}
 
