@@ -54,3 +54,9 @@ go run add_borrower/add_borrower.go
 `.devcontainer`はVSCodeのDev Containerで使うための設定であり，本リポジトリをマウントします．
 
 `docker`はサーバを起動するように設定しているため，`docker compose up`でサーバが起動します．
+
+# データの更新手順
+1. 更新データを用意し`initdb/update/updatedata.csv`に配置
+  * id列は今のところ手作業で振る
+2. `docker exec -it library-app-server-mongodb-1 sh /docker-entrypoint-initdb.d/update/update.sh`
+  * コンテナ名が異なる場合は適切なコンテナ名に変更する

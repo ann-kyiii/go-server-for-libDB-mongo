@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -10,7 +11,9 @@ import (
 )
 
 func main() {
-	uri := "mongodb://localhost:27017"
+	user := os.Getenv("MONGO_INITDB_ROOT_USERNAME")
+	password := os.Getenv("MONGO_INITDB_ROOT_PASSWORD")
+	uri := "mongodb://" + user + ":" + password + "@" + "localhost:27017"
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
 
 	if err != nil {
@@ -25,12 +28,12 @@ func main() {
 	insertBorrower(client)
 }
 
-// すべての本にBorrowerの空配列を追加する
+// Borrowerの配列が追加されていない本にBorrowerの空配列を追加する
 func insertBorrower(client *mongo.Client) {
 	col := client.Database("library-app").Collection("books")
 
 	var books []map[string]interface{}
-	cursor, err := col.Find(context.TODO(), bson.D{})
+	cursor, err := col.Find(context.TODO(), bson.D{{Key: "borrower", Value: bson.D{{Key: "$exists", Value: false}}}})
 	if err != nil {
 		panic(err)
 	}
@@ -43,8 +46,8 @@ func insertBorrower(client *mongo.Client) {
 		cursor.Decode(&book)
 		books = append(books, book)
 
-		filter := bson.D{{"id", book["id"]}}
-		update := bson.D{{"$set", bson.D{{"borrower", bson.A{}}}}}
+		filter := bson.D{{Key: "id", Value: book["id"]}}
+		update := bson.D{{Key: "$set", Value: bson.D{{Key: "borrower", Value: bson.A{}}}}}
 
 		_, err := col.UpdateOne(context.TODO(), filter, update)
 		if err != nil {
@@ -52,5 +55,5 @@ func insertBorrower(client *mongo.Client) {
 		}
 
 	}
-	fmt.Printf("Documents updated.")
+	fmt.Println("Documents updated.")
 }
