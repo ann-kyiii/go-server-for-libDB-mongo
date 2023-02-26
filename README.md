@@ -48,15 +48,31 @@ mongoimport --db=<YOUR DB NAME> --collection=<YOUR COLLECTION NAME>  --type csv 
 go run add_borrower/add_borrower.go
 ```
 
-# Docker環境のセットアップ
+## Docker環境のセットアップ
 本リポジトリには`.devcontainer`と`docker`の2つの設定があり，前者が開発用で後者が運用用です．
 
 `.devcontainer`はVSCodeのDev Containerで使うための設定であり，本リポジトリをマウントします．
 
 `docker`はサーバを起動するように設定しているため，`docker compose up`でサーバが起動します．
 
-# データの更新手順
-1. 更新データを用意し`initdb/update/updatedata.csv`に配置
-  * id列は今のところ手作業で振る
-2. `docker exec -it library-app-server-mongodb-1 sh /docker-entrypoint-initdb.d/update/update.sh`
-  * コンテナ名が異なる場合は適切なコンテナ名に変更する
+`.env.sample`を参考に`.env`を作成してから起動してください．
+Dockerコンテナ環境では以下の通り指定する必要があります．
+```
+DATABASE_NAME=library-app
+COLLECTION_NAME=books
+```
+
+### 初期データの準備
+以下をヘッダ行とするcsvファイルを用意し，`initfile/create_book_list.py`を実行してください．
+実行環境はDev Containerを使用できます．
+```
+bookName,genre,subGenre,ISBN,find,sum,author,publisher,pubdate,exist,locateAt4F,withDisc,other
+```
+作成されたcsvファイルを`initdb`にコピーしてDockerコンテナを起動します．
+
+### データの更新手順
+1. 初期データの準備と同様に更新データを用意し`initfile/create_book_list.py`を実行
+   * この際，`--start_id <既存のid+1>`という引数を付けて実行する必要がある
+2. `initdb/update/updatedata.csv`に配置
+3. `docker exec -it library-app-server-mongodb-1 sh /docker-entrypoint-initdb.d/update/update.sh`
+   * コンテナ名が異なる場合は適切なコンテナ名に変更する
