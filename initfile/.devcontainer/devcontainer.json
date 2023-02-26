@@ -1,0 +1,8 @@
+{
+    "name": "import book",
+    "dockerComposeFile": ["./docker-compose.yml"],
+    "service": "python",
+    "workspaceFolder": "/app",
+    "extensions": ["ms-python.python"],
+    "settings": {}
+}
