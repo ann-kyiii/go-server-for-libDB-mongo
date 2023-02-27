@@ -12,6 +12,7 @@ services:
     volumes:
       - ./db:/data/db
       - ../initdb:/docker-entrypoint-initdb.d
+    restart: always
   golang:
     build:
       context: ../
@@ -27,7 +28,8 @@ services:
       COLLECTION_NAME: books
     ports:
       - 1313:1313
-    working_dir: /go/src/app
+    working_dir: /
     command: ["/main_server"]
     depends_on:
       - mongodb
+    restart: always
