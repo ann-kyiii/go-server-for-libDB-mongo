@@ -1,4 +1,4 @@
-FROM golang:latest AS builder
+FROM golang:1.19.6 AS builder
 
 RUN mkdir /go/src/app
 WORKDIR /go/src/app
@@ -9,6 +9,6 @@ COPY ./go.mod /go/src/app/go.mod
 COPY ./go.sum /go/src/app/go.sum
 RUN go mod tidy & go build -o /add_borrower
 
-FROM mongo:latest
+FROM mongo:6.0.4
 
 COPY --from=builder /add_borrower /add_borrower
